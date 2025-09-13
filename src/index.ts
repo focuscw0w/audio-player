@@ -8,6 +8,7 @@ import { SESSION_SECRET, PORT } from "./env.js";
 
 import homeRouter from "./routes/home.js";
 import loginRouter from "./routes/login.js";
+import registerRouter from "./routes/register.js";
 
 const app = express();
 
@@ -37,7 +38,9 @@ app.use(passport.session());
 // Routes
 app.use("/", homeRouter);
 app.use("/login", loginRouter);
+app.use("/register", registerRouter);
 
+// Start server
 app.listen(PORT, async () => {
   try {
     await initUserTable();
