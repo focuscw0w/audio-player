@@ -1,0 +1,19 @@
+### Register - valid request
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "correctUsername",
+    "password": "correctPassword",
+    "confirmPassword": "correctPassword"
+}
+
+### Invalid request
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "correctUsername",
+    "password": "invpswd",
+    "confirmPassword": "invpswd"
+}

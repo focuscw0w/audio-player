@@ -35,6 +35,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Body parser
+app.use(express.json());
+
 // Routes
 app.use("/", homeRouter);
 app.use("/login", loginRouter);
