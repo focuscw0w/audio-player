@@ -2,17 +2,14 @@ import express from "express";
 import path from "path";
 import session from "express-session";
 import passport from "passport";
-import dotenv from "dotenv";
 import { fileURLToPath } from "url";
+import { initUserTable } from "./db/init.js";
+import { SESSION_SECRET, PORT } from "./env.js";
 
 import homeRouter from "./routes/home.js";
 import loginRouter from "./routes/login.js";
 
-// Config for environment variables
-dotenv.config({ path: ".env.local" });
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // View engine
 const __filename = fileURLToPath(import.meta.url);
@@ -27,7 +24,7 @@ app.set("view engine", "ejs");
 // Session
 app.use(
   session({
-    secret: process.env.SESSION_SECRET!,
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 60000 * 60 },
@@ -41,6 +38,14 @@ app.use(passport.session());
 app.use("/", homeRouter);
 app.use("/login", loginRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await initUserTable();
+    console.log(`Server is running on http://localhost:${PORT}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error initializing the database:", error.message);
+      process.exit(1);
+    }
+  }
 });
