@@ -1,10 +1,8 @@
-import e, { Router } from "express";
-import type { Request, Response } from "express";
+import { Router } from "express";
+import * as homeController from "../controllers/home.js";
 
 const homeRouter = Router();
 
-homeRouter.get("/", (_req: Request, res: Response) => {
-  res.render("home", { title: "Login" });
-});
+homeRouter.get("/", homeController.generateHomeView);
 
 export default homeRouter;
