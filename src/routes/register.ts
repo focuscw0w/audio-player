@@ -5,10 +5,11 @@ import { userSchema } from "../schemas/user.js";
 
 const registerRouter = Router();
 
-registerRouter.get(
+registerRouter.get("/", registerController.generateRegisterView);
+registerRouter.post(
   "/",
-  registerController.generateRegisterView
+  validateReqBody(userSchema),
+  registerController.registerUser
 );
-registerRouter.post("/", validateReqBody(userSchema), registerController.registerUser);
 
 export default registerRouter;

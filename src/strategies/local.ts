@@ -11,7 +11,7 @@ passport.use(
       [username]
     );
 
-    // Is user in database?
+    // User not found
     if (res.rowCount === 0) {
       return done(null, false, { message: "User not found." });
     }
