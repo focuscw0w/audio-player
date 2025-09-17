@@ -8,7 +8,7 @@ Content-Type: application/json
     "confirmPassword": "correctPassword"
 }
 
-### Invalid request
+### Register - invalid request
 POST http://localhost:3000/register
 Content-Type: application/json
 

@@ -9,6 +9,7 @@ export const generateRegisterView = (_req: Request, res: Response) =>
 
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
+  console.log(username, password);
 
   try {
     const dbRes: QueryResult<User> = await pool.query(
@@ -35,15 +36,8 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(500).json({ message: "Failed to create user" });
     }
 
-    const userDTO: UserDTO = {
-      id: newUser.id,
-      username: newUser.username,
-      created_at: newUser.created_at,
-    };
-
-    return res
-      .status(201)
-      .json({ message: "User registered successfully", user: userDTO });
+    return res.redirect("/");
+    
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
