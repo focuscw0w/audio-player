@@ -5,13 +5,10 @@ import passport from "passport";
 import { fileURLToPath } from "url";
 import { initUserTable } from "./db/init.js";
 import { SESSION_SECRET, PORT } from "./env.js";
-import { pool } from "./db/pool.js";
 
 import homeRouter from "./routes/home.js";
 import loginRouter from "./routes/login.js";
 import registerRouter from "./routes/register.js";
-import type { User } from "./types/user.js";
-import type { QueryResult } from "pg";
 
 const app = express();
 
@@ -37,30 +34,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.serializeUser((user: any, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id: number, done) => {
-  try {
-    const res: QueryResult<User> = await pool.query(
-      "SELECT * FROM users WHERE id = $1",
-      [id]
-    );
-
-    const user = res.rows[0];
-    if (!user) {
-      return done(null, false);
-    }
-
-    return done(null, user);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return done(error);
-    }
-  }
-});
 
 // Body parser
 app.use(express.json());

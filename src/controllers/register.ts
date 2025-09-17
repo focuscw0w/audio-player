@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { pool } from "../db/pool.js";
 import type { User, UserDTO } from "../types/user.js";
 import type { QueryResult } from "pg";
@@ -7,9 +7,12 @@ import { hashPassword } from "../utils/password.js";
 export const generateRegisterView = (_req: Request, res: Response) =>
   res.render("register", { title: "Register" });
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { username, password } = req.body;
-  console.log(username, password);
 
   try {
     const dbRes: QueryResult<User> = await pool.query(
@@ -36,11 +39,23 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(500).json({ message: "Failed to create user" });
     }
 
-    return res.redirect("/");
-    
+    const userDTO: UserDTO = {
+      id: newUser.id,
+      username: newUser.username,
+      created_at: newUser.created_at,
+    };
+
+    // Call passport to log in the user
+    req.logIn(userDTO, (error) => {
+      if (error) {
+        return next(error);
+      }
+      res.redirect("/");
+    });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      res.status(500).json({ message: error.message });
+     return res.status(500).json({ message: error.message });
     }
+    return next(error);
   }
 };

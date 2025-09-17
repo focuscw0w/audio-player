@@ -9,7 +9,8 @@ export const validateReqBody =
       next();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
       }
+      return next(error);
     }
   };
