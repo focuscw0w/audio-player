@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import session from "express-session";
-import passport from "passport";
+import passport from "./strategies/local.js"
 import { fileURLToPath } from "url";
 import { initUserTable } from "./db/init.js";
 import { SESSION_SECRET, PORT } from "./env.js";

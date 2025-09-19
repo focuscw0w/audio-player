@@ -31,7 +31,7 @@ passport.deserializeUser(async (id: number, done) => {
   }
 });
 
-export default passport.use(
+passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       const res: QueryResult<User> = await pool.query(
@@ -64,3 +64,5 @@ export default passport.use(
     }
   })
 );
+
+export default passport;
