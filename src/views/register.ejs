@@ -16,7 +16,7 @@
         <label for="username" class="form-label">Username</label>
         <input type="text" name="username" class="form-control" id="username" />
         <% if (errors?.username) { %>
-        <div class="error"><%= errors.username %></div>
+        <div class="text-danger"><%= errors.username %></div>
         <% } %>
       </div>
       <div class="mb-3">
@@ -28,7 +28,7 @@
           id="password"
         />
         <% if (errors?.password) { %>
-        <div class="error"><%= errors.password %></div>
+        <p class="text-danger"><%= errors.password %></p>
         <% } %>
       </div>
       <div>
