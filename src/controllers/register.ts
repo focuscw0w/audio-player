@@ -5,7 +5,7 @@ import type { QueryResult } from "pg";
 import { hashPassword } from "../utils/password.js";
 
 export const generateRegisterView = (_req: Request, res: Response) =>
-  res.render("register", { title: "Register" });
+  res.render("register", { title: "Register", errors: {} });
 
 export const registerUser = async (
   req: Request,
@@ -54,7 +54,7 @@ export const registerUser = async (
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-     return res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
     return next(error);
   }

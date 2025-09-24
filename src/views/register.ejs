@@ -10,10 +10,14 @@
       class="position-absolute top-50 start-50 translate-middle bg-light p-4 border rounded"
       method="post"
       action="/register"
+      id="registerForm"
     >
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input type="text" name="username" class="form-control" id="username" />
+        <% if (errors?.username) { %>
+        <div class="error"><%= errors.username %></div>
+        <% } %>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
@@ -23,6 +27,9 @@
           class="form-control"
           id="password"
         />
+        <% if (errors?.password) { %>
+        <div class="error"><%= errors.password %></div>
+        <% } %>
       </div>
       <div>
         <div class="mb-3">
